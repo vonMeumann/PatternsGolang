@@ -5,25 +5,49 @@ import (
 	"fmt"
 )
 
-var (
-	Tiny   = &awesomeProject.Shop{}
-	Medium = &awesomeProject.Market{IceCreams: 100, Chocolate: 30.0, Wrapper: Tiny}
-	Large  = &awesomeProject.SuperGIGAMegamarket{IceCreams: 100, Chocolate: 30.0, Wafle: 20.0, Wrapper: Medium}
-)
+var s, s1 string
+var x, x1 int
 
 func main() {
-	fmt.Println("Hello,If you need to buy ice cream, you can go to the shop, the market or the SuperGIGAMegamarket, but the price will be different in each place.")
-	fmt.Println("Input, please, the name of Market where you want to buy an ice cream:")
-	var name string
-	fmt.Scan(&name)
-	switch name {
-	case "Shop":
-		fmt.Println("The price of ice cream in the shop is", Tiny.GetPrice())
-	case "Market":
-		fmt.Println("The price of ice cream in the market is", Medium.GetPrice())
-	case "SGM":
 
-		fmt.Println("The price of ice cream in the SuperGIGAMegamarket is", Large.GetPrice())
+	Ticket := &awesomeProject.Ticket{} //Base
+	fmt.Println("The Price of the Ticket is: ", Ticket.GetPrice())
+	fmt.Println("Do you want to add something?")
+	fmt.Scanln(&s)
+	if s == "yes" {
+		fmt.Println("What do you want to add?")
+		fmt.Scanln(&s1)
+		switch s1 {
+		case "PlusMerch":
+			Ticket2 := &awesomeProject.PlusMerch{TicketFrom: Ticket}
+			fmt.Println("How many do you want?")
+			fmt.Scanln(&x)
+			for i := 1; i < x; i++ {
+				Ticket2 = &awesomeProject.PlusMerch{TicketFrom: Ticket2}
+			}
+			fmt.Printf("The Price of the Ticket with  %d PlusMerch is: %d", x, Ticket2.GetPrice())
+		case "FanZone":
+			Ticket2 := &awesomeProject.FanZone{TicketFrom: Ticket}
+			fmt.Println("How many do you want?")
+			fmt.Scanln(&x)
+			for i := 1; i < x; i++ {
+				Ticket2 = &awesomeProject.FanZone{TicketFrom: Ticket2}
+			}
+			fmt.Printf("The Price of t	he Ticket with  %d Fanzone is: %d", x, Ticket2.GetPrice())
+		case "Both":
+			Ticket2 := &awesomeProject.FanZone{TicketFrom: Ticket}
+			fmt.Println("How many Fanzone do you want?")
+			fmt.Scanln(&x)
+			fmt.Println("How many PlusMerch do you want?")
+			fmt.Scanln(&x1)
+			for i := 1; i < x; i++ {
+				Ticket2 = &awesomeProject.FanZone{TicketFrom: Ticket2}
+			}
+			Ticket3 := &awesomeProject.PlusMerch{TicketFrom: Ticket2}
+			for i := 1; i < x1; i++ {
+				Ticket3 = &awesomeProject.PlusMerch{TicketFrom: Ticket3}
+			}
+			fmt.Printf("The Price of the Ticket with  %d Fanzone and %d PlusMerch is: %d", x, x1, Ticket3.GetPrice())
+		}
 	}
-
 }
